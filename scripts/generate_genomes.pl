@@ -121,7 +121,7 @@ foreach my $genome_name (@genome_names)
 	print "wrote $genome_file\n";
 
 	# generate reads
-	my $art_command = "$art_illumina_bin -i $ref_file $art_illumina_parameters -o $fastq_file_prefix 1> $out_dir/$genome_name.log 2>&1";
+	my $art_command = "$art_illumina_bin -i $genome_file $art_illumina_parameters -o $fastq_file_prefix 1> $out_dir/$genome_name.log 2>&1";
 	print "running '$art_command'\n";
 	system($art_command) == 0 or die "Could not execute '$art_command'\n";
 	move("$fastq_file_prefix.fq", "$fastq_file_prefix.fastq");

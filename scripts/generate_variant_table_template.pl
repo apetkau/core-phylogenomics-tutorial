@@ -13,7 +13,9 @@ my $usage =
 "Parameters:\n".
 "\treference.fasta:  A reference genome in FASTA format\n".
 "\tnumber of genomes: Number of genomes to include in template table\n".
-"\tnumber of positions: Number of positions to mutate in table\n";
+"\tnumber of positions: Number of positions to mutate in table\n".
+"Example:\n".
+"$0 reference.fasta 5 100 | sort -n -k 2,2 > variants_table.tsv\n";
 
 # reads all reference sequences into a table structured like
 # ref_id => ref_seq
@@ -46,6 +48,12 @@ die "number of genomes is not defined\n$usage" if (not defined $num_genomes);
 die "number of genomes=$num_genomes is not valid\n$usage" if ($num_genomes !~ /^\d+$/);
 die "number of positions is not defined\n$usage" if (not defined $num_positions);
 die "number of positions=$num_positions is not valid\n$usage" if ($num_positions !~ /^\d+$/);
+
+my $swap_table = {
+'A' => 'T',
+'T' => 'G',
+'G' => 'C',
+'C' => 'A'};
 
 # read original reference sequences
 my $reference_table = read_reference_sequences($ref_file);
@@ -84,7 +92,30 @@ for (my $pos_num = 0; $pos_num < $num_positions; $pos_num++)
 	# for each genome to generate
 	for (my $i = 0; $i < $num_genomes; $i++)
 	{
-		print "\t$ref_base";
+		# cluster genomes
+		if ($i % 2 == 0)
+		{
+			if ($i % 4 == 0) # every 4th
+			{
+				if ($pos_num % 2 == 0) # 50% of positions
+				{
+					print "\t".$swap_table->{uc($ref_base)};
+				}
+				else
+				{
+					# swap again for other 50%
+					print "\t".$swap_table->{$swap_table->{uc($ref_base)}};
+				}
+			}
+			else
+			{
+				print "\t".$swap_table->{uc($ref_base)};
+			}
+		}
+		else
+		{
+			print "\t$ref_base";
+		}
 	}
 	print "\n";
 }
