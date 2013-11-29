@@ -177,3 +177,12 @@ Since this file is in the exact same format as the variants table used to define
 	< gi|284800255|ref|NC_013766.1|	2786700	valid	C	T	C	A	C	T
 
 This indicates that the core SNP pipeline is missing two of the variants that were introduced, one at position 1817903 and another at position 2786700.
+
+Questions
+=========
+
+1. For this tutorial the mean coverage simulated was 30x, and our minimum SNP detection coverage was 5x.  Try changing the minimum coverage to 1x, 15x, 25x within the file __mapping.conf__ and re-running the pipeline.  Use __diff__ to count the differences in the number of SNPs detected.  How does this change?
+
+2. All the fastq files we generated were simulated with 100 bp reads.  Adjust the read length using the __--len__ parameter in the __scripts/generate_genomes.pl__ script to 20x and 200x.  What difference does this make to the number of SNPs detected?
+
+3. The reference mapping alignment BAM files for each genome are located within __tutorial1_out/bam__.  Load one of these files up using software such as [Tablet](http://bioinf.scri.ac.uk/tablet/) and examine the two missing positions 1817903 and 2786700.  What do you notice about these positions?
