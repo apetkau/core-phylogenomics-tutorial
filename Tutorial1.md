@@ -12,7 +12,7 @@ This tutorial makes use of the [ART](http://www.niehs.nih.gov/research/resources
 	source /home/aaron/Projects/software/core-phylogenomics-tutorial/software/environment.sh
 	art_illumina
 
-This will create a __software/__ directory and build ART within this directory.
+This will create a __software/__ directory, build ART within this directory and add __art_illumina__ to your PATH.
 
 Step 1: Obtaining a Reference Genome
 ------------------------------------
@@ -43,7 +43,7 @@ Inserting a set of mutations and generating sequencing reads can be accomplished
 		art_illumina_parameters:  A quoted string containing the art_illumina parameters
 		out_dir:  The directory to store all output files
 
-The reference.fasta file has been provided from Step 1.  The variants_table.tsv for this tutorial is named __tutorial1_mutations.tsv__ and includes names of the genomes we will generate and a list of mutations for each genome.  This table looks as follows:
+The _reference.fasta_ file has been provided from Step 1.  The _variants_table.tsv_ for this tutorial is named __tutorial1_mutations.tsv__ and includes names of the genomes we will generate and a list of mutations for each genome.  This table looks as follows:
 
 	$ head tutorial1_mutations.tsv
 	#Chromosome	Position	Status	Reference	08-5578-0	08-5578-1	08-5578-2	08-5578-3	08-5578-4
