@@ -35,7 +35,10 @@ else
 	echo "error occured, could not find art_illumina in PATH"
 fi
 
+echo
+echo "**********************"
 echo "ART Illumina Installed"
-echo "Please run"
+echo "Please run the below command to add to your PATH"
+echo
 echo "source $environment"
-echo "To add to PATH"
+echo "**********************"
