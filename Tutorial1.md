@@ -200,7 +200,7 @@ Questions
 
 1. For this tutorial the mean coverage simulated was 30x, and our minimum SNP detection coverage was 5x.  Try changing the minimum coverage to 15x and 25x within the file __mapping.conf__ and re-running the pipeline.  Compare the differences in the number of SNPs detected.  How does the number of SNPs detected change as the minimum coverage increases?
 
-2. All the fastq files we generated were simulated with 100 bp reads.  Adjust the read length using the __--len__ parameter in the __scripts/generate_genomes.pl__ script to 20x and 200x.  What difference does this make to the number of SNPs detected?
+2. All the fastq files we generated were simulated with 100 bp reads.  Adjust the read length using the __--len__ parameter in the __scripts/generate_genomes.pl__ script to 50x and 200x.  What difference does this make to the number of SNPs detected?
 
 3. The reference mapping alignment BAM files for each genome are located within __tutorial1_out/bam__.  Load one of these files up using software such as [Tablet](http://bioinf.scri.ac.uk/tablet/) and examine the two missing positions 1817903 and 2786700.  What do you notice about these positions?
 
