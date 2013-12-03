@@ -8,9 +8,17 @@ Installing Depencencies
 
 This tutorial makes use of the [ART](http://www.niehs.nih.gov/research/resources/software/biostatistics/art/) NGS sequecing read simulator.  This tool (art_illumina) must be installed within your PATH.  To automatically download and build, please use the build_dependencies.sh script and source the file listed on completion of the script.  For example:
 	
-	./build_dependencies.sh
-	source /home/aaron/Projects/software/core-phylogenomics-tutorial/software/environment.sh
-	art_illumina
+	$ ./build_dependencies.sh
+	...
+	**********************
+	ART Illumina Installed
+	Please run the below command to add to your PATH
+	
+	source /home/course/aaron/core-phylogenomics-tutorial/software/environment.sh
+	**********************
+
+	$ source /home/course/aaron/core-phylogenomics-tutorial/software/environment.sh
+	$ art_illumina
 
 This will create a __software/__ directory, build ART within this directory and add __art_illumina__ to your PATH.
 
@@ -100,7 +108,7 @@ The reference mapping method can be run using the __--mode mapping__ parameter. 
 	min_coverage: 5
 	freebayes_params: '--pvar 0 --ploidy 1 --left-align-indels --min-mapping-quality 30 --min-base-quality 30 --min-alternate-fraction 0.75'
 	smalt_index: '-k 13 -s 6'
-	smalt_map: '-n 24 -f samsoft -r -1'
+	smalt_map: '-n 24 -f samsoft -r -1 -y 0.5'
 	vcf2pseudo_numcpus: 4
 	vcf2core_numcpus: 24
 	trim_clean_params: '--numcpus 4 --min_quality 20 --bases_to_trim 10 --min_avg_quality 25 --min_length 36 -p 1'
@@ -110,15 +118,15 @@ The reference mapping method can be run using the __--mode mapping__ parameter. 
 	    vcf2core: "-pe smp 24"
 	    trimClean: "-pe smp 4"
 
-The main parameter you will want to change here is the __min_coverage__ parameter which defines the minimum coverage in a particular position to be included within the results.  For this tutorial we will leave the minimum coverage at 5 since the mean coverage from our simulated data was 20.  For other data sets with more mean coverage this value could be increased.
+The main parameter you will want to change here is the __min_coverage__ parameter which defines the minimum coverage in a particular position to be included within the results.  For this tutorial we will leave the minimum coverage at 5 since the mean coverage from our simulated data was 30.  For other data sets with more mean coverage this value could be increased.
 
 In order to run the pipeline, the following command can be used:
 
 	$ snp_phylogenomics_control --mode mapping --input-dir tutorial1_fastq/ --reference reference/08-5578.fasta --output tutorial1_out --config mapping.conf
-
-	Running core SNP phylogenomic pipeline on Fri Nov 29 09:35:52 CST 2013
-	Core Pipeline git Commit: 73f1413cc97443f1b084c41619aaefdc038686a2
-	vcf2pseudoalign git Commit: c10b571395481eb79b09de15428f523880fd26b7
+	
+	Running core SNP phylogenomic pipeline on Tue Dec  3 12:18:02 CST 2013
+	Core Pipeline git Commit: 3e93c5c1ef436ab6878789d330d343c47562a7a9
+	vcf2pseudoalign git Commit: e81ab24e52dc2b8de85c9beed8c2ced8f478d795
 	
 	Parameters:
 	...
@@ -128,10 +136,11 @@ When finished, you should expect to see the following output:
 	================
 	= Output Files =
 	================
-	tree: /home/aaron/Projects/software/core-phylogenomics-tutorial/tutorial1_out/phylogeny/pseudoalign.phy_phyml_tree.txt
-	matrix: /home/aaron/Projects/software/core-phylogenomics-tutorial/tutorial1_out/pseudoalign/matrix.csv
-	pseudoalignment: /home/aaron/Projects/software/core-phylogenomics-tutorial/tutorial1_out/pseudoalign/pseudoalign.phy
-	pipeline took 6.95 minutes to complete
+	tree: /home/course/aaron/core-phylogenomics-tutorial/tutorial1_out/phylogeny/pseudoalign.phy_phyml_tree.txt
+	matrix: /home/course/aaron/core-phylogenomics-tutorial/tutorial1_out/pseudoalign/matrix.csv
+	pseudoalignment: /home/course/aaron/core-phylogenomics-tutorial/tutorial1_out/pseudoalign/pseudoalign.phy
+	stage: mapping-final took 0.00 minutes to complete
+	pipeline took 6.18 minutes to complete
 
 The main file you will want to check out include __tutorial1_out/phylogeny/pseudoalign.phy_phyml_tree.txt__, which is the computed phylogenetic tree.  This can be opened up using [FigTree](http://tree.bio.ed.ac.uk/software/figtree/).
 
@@ -178,11 +187,21 @@ Since this file is in the exact same format as the variants table used to define
 
 This indicates that the core SNP pipeline is missing two of the variants that were introduced, one at position 1817903 and another at position 2786700.
 
+Alternatively, to get a brief count of the number of differences, you can use the __scripts/compare_positions.pl__ script.
+
+	$ perl scripts/compare_positions.pl tutorial1_mutations.tsv tutorial1_out/pseudoalign/pseudoalign-positions.tsv | column -t
+	tutorial1_mutations.tsv  tutorial1_out/pseudoalign/pseudoalign-positions.tsv  Intersection  Unique-tutorial1_mutations.tsv  Unique-tutorial1_out/pseudoalign/pseudoalign-positions.tsv
+	100                      98                                                   98            2                               0
+
+This prints the number of positions found within each file, as well as the intersection and unique positions.  This indicates that pipeline is missing 2 of the original set of positions from _tutorial1_mutations.tsv_.  Note: we pipe the output through __column -t__ to line up columns correctly.
+
 Questions
 =========
 
-1. For this tutorial the mean coverage simulated was 30x, and our minimum SNP detection coverage was 5x.  Try changing the minimum coverage to 1x, 15x, 25x within the file __mapping.conf__ and re-running the pipeline.  Use __diff__ to count the differences in the number of SNPs detected.  How does this change?
+1. For this tutorial the mean coverage simulated was 30x, and our minimum SNP detection coverage was 5x.  Try changing the minimum coverage to 15x and 25x within the file __mapping.conf__ and re-running the pipeline.  Compare the differences in the number of SNPs detected.  How does the number of SNPs detected change as the minimum coverage increases?
 
 2. All the fastq files we generated were simulated with 100 bp reads.  Adjust the read length using the __--len__ parameter in the __scripts/generate_genomes.pl__ script to 20x and 200x.  What difference does this make to the number of SNPs detected?
 
 3. The reference mapping alignment BAM files for each genome are located within __tutorial1_out/bam__.  Load one of these files up using software such as [Tablet](http://bioinf.scri.ac.uk/tablet/) and examine the two missing positions 1817903 and 2786700.  What do you notice about these positions?
+
+[Answers](Tutorial1Answers.md)

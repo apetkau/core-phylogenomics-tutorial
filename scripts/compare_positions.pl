@@ -28,7 +28,9 @@ sub read_pos
 		my ($chrom,$position,$status,$reference) = @tokens;
 		die "Error with line $line, position invalid\n" if (not defined $position or $position !~ /\d+/);
 
-		#next if ($status ne 'valid');
+		# ignore anything not valid
+		next if ($status ne 'valid');
+
 		$results{'positions'}->insert($line);
 	}
 	close($fh);
@@ -59,6 +61,6 @@ my $intersection = $variants1_positions * $variants2_positions;
 my $uniq_variants1 = $variants1_positions - $variants2_positions;
 my $uniq_variants2 = $variants2_positions - $variants1_positions;
 
-print "$variants1_f\t$variants2_f\tIntersection\tUnique $variants1_f\tUnique $variants2_f\n";
+print "$variants1_f\t$variants2_f\tIntersection\tUnique-$variants1_f\tUnique-$variants2_f\n";
 print $variants1_positions->size,"\t",$variants2_positions->size,"\t",$intersection->size,
 	"\t",$uniq_variants1->size,"\t",$uniq_variants2->size,"\n";
