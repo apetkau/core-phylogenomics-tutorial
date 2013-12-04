@@ -21,7 +21,7 @@ make && make install
 
 cd $ROOT_DIR
 
-echo "export PATH=$art_illumina_install/bin:$PATH" > $environment
+echo "export PATH=$art_illumina_install/bin:\$PATH" > $environment
 
 echo "ART Illumina Installed to $art_illumina_install"
 echo -n "Testing install... "
