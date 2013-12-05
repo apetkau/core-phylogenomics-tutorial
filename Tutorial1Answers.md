@@ -22,7 +22,11 @@ This indicates that no reads have mapped to this position.  This is most likely 
 	       1  3032288  |        1  3032288  |  3032288  3032288  |   100.00  | gi|284800255|ref|NC_013766.1|        gi|284800255|ref|NC_013766.1|
 	   52653    52925  |    54424    54696  |      273      273  |    79.56  | gi|284800255|ref|NC_013766.1|        gi|284800255|ref|NC_013766.1|
 	   53847    54071  |    54350    54576  |      225      227  |    88.11  | gi|284800255|ref|NC_013766.1|        gi|284800255|ref|NC_013766.1|
+
 	...
+
+	 1816674  1818474  |   265488   263688  |     1801     1801  |    99.83  | gi|284800255|ref|NC_013766.1|        gi|284800255|ref|NC_013766.1|
+	 1816674  1818474  |  2556319  2558119  |     1801     1801  |    99.83  | gi|284800255|ref|NC_013766.1|        gi|284800255|ref|NC_013766.1|
 
 The generated table lists all reptitive regions on the reference genome *reference/08-5578.fasta*, in the format of (start1, end1) and (start2, end2).  Scrolling through this table indicates that (1816674, 1818474) is nearly identical to (265488,263688) and (2556319,2558119).  The position 1817903 lies within this region and so most likely excluded from the reference mapping results.
 
@@ -39,11 +43,11 @@ For this tutorial the mean coverage simulated was 30x, and our minimum SNP detec
 
 From the table below, it can be observed that as the __min_coverage__ increases, the number of SNPs detected decreases.  This is because the coverage set within the simulations, 30x, is only the mean coverage, which may vary across the genome.
 
-| Coverage | Positions Detected |
-| -------- | ------------------ |
-|        5 |                 98 |
-|       15 |                 27 |
-|       25 |                  0 |
+| Minimum Coverage | Positions Detected |
+| ---------------- | ------------------ |
+|                5 |                 98 |
+|               15 |                 27 |
+|               25 |                  0 |
 
 The steps used to generate the above table are given below.
 

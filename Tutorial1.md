@@ -53,11 +53,17 @@ Inserting a set of mutations and generating sequencing reads can be accomplished
 
 The _reference.fasta_ file has been provided from Step 1.  The _variants_table.tsv_ for this tutorial is named __tutorial1_mutations.tsv__ and includes names of the genomes we will generate and a list of mutations for each genome.  This table looks as follows:
 
-	$ head tutorial1_mutations.tsv
-	#Chromosome	Position	Status	Reference	08-5578-0	08-5578-1	08-5578-2	08-5578-3	08-5578-4
-	gi|284800255|ref|NC_013766.1|	77005	valid	T	C	T	G	T	C
-	gi|284800255|ref|NC_013766.1|	156056	valid	T	C	T	G	T	C
-	...
+	$ head tutorial1_mutations.tsv | column -t
+	#Chromosome                    Position  Status  Reference  08-5578-0  08-5578-1  08-5578-2  08-5578-3  08-5578-4
+	gi|284800255|ref|NC_013766.1|  77005     valid   T          C          T          G          T          C
+	gi|284800255|ref|NC_013766.1|  156056    valid   T          C          T          G          T          C
+	gi|284800255|ref|NC_013766.1|  163917    valid   T          C          T          G          T          C
+	gi|284800255|ref|NC_013766.1|  177102    valid   A          G          A          T          A          G
+	gi|284800255|ref|NC_013766.1|  197161    valid   G          A          G          C          G          A
+	gi|284800255|ref|NC_013766.1|  198617    valid   T          C          T          G          T          C
+	gi|284800255|ref|NC_013766.1|  222201    valid   A          G          A          T          A          G
+	gi|284800255|ref|NC_013766.1|  253430    valid   G          C          G          C          G          C
+	gi|284800255|ref|NC_013766.1|  289669    valid   G          C          G          C          G          C
 
 Generating the genomes and sequencing reads we will used for analysis can be accomplished with the following commands:
 
@@ -142,33 +148,35 @@ When finished, you should expect to see the following output:
 	stage: mapping-final took 0.00 minutes to complete
 	pipeline took 6.18 minutes to complete
 
-The main file you will want to check out include __tutorial1_out/phylogeny/pseudoalign.phy_phyml_tree.txt__, which is the computed phylogenetic tree.  This can be opened up using [FigTree](http://tree.bio.ed.ac.uk/software/figtree/).
+The main file you will want to check out include __tutorial1_out/phylogeny/pseudoalign.phy_phyml_tree.txt__, which is the computed phylogenetic tree.  This can be opened up using [FigTree](http://tree.bio.ed.ac.uk/software/figtree/) and should look similar to below.
+
+![tutorial1_tree.png](tutorial1_tree.png)
 
 Also, the file __tutorial1_out/pseudoalign/matrix.csv__ which contains a matrix of core SNP distances among all the input isolates.
 
-	$ cat tutorial1_out/pseudoalign/matrix.csv
-	strain	08-5578	08-5578-0	08-5578-2	08-5578-4	08-5578-1	08-5578-3	
-	08-5578	0	98	98	98	0	0	
-	08-5578-0	98	0	49	0	98	98	
-	08-5578-2	98	49	0	49	98	98	
-	08-5578-4	98	0	49	0	98	98	
-	08-5578-1	0	98	98	98	0	0	
-	08-5578-3	0	98	98	98	0	0	
+	$ column -t tutorial1_out/pseudoalign/matrix.csv
+	strain     08-5578  08-5578-0  08-5578-2  08-5578-4  08-5578-1  08-5578-3
+	08-5578    0        98         98         98         0          0
+	08-5578-0  98       0          49         0          98         98
+	08-5578-2  98       49         0          49         98         98
+	08-5578-4  98       0          49         0          98         98
+	08-5578-1  0        98         98         98         0          0
+	08-5578-3  0        98         98         98         0          0
 	
 
 Also, the file __tutorial1_out/pseudoalign/pseudoalign-positions.tsv__ which includes every variant that was used by the pipeline for genetating the phylogenetic tree as well as those that were filtered out.
 
-	$ head tutorial1_out/pseudoalign/pseudoalign-positions.tsv
-	#Chromosome	Position	Status	Reference	08-5578-0	08-5578-1	08-5578-2	08-5578-3	08-5578-4
-	gi|284800255|ref|NC_013766.1|	77005	valid	T	C	T	G	T	C
-	gi|284800255|ref|NC_013766.1|	156056	valid	T	C	T	G	T	C
-	gi|284800255|ref|NC_013766.1|	163917	valid	T	C	T	G	T	C
-	gi|284800255|ref|NC_013766.1|	177102	valid	A	G	A	T	A	G
-	gi|284800255|ref|NC_013766.1|	197161	valid	G	A	G	C	G	A
-	gi|284800255|ref|NC_013766.1|	198617	valid	T	C	T	G	T	C
-	gi|284800255|ref|NC_013766.1|	222201	valid	A	G	A	T	A	G
-	gi|284800255|ref|NC_013766.1|	253430	valid	G	C	G	C	G	C
-	gi|284800255|ref|NC_013766.1|	289669	valid	G	C	G	C	G	C
+	$ head tutorial1_out/pseudoalign/pseudoalign-positions.tsv | column -t
+	#Chromosome                    Position  Status  Reference  08-5578-0  08-5578-1  08-5578-2  08-5578-3  08-5578-4
+	gi|284800255|ref|NC_013766.1|  77005     valid   T          C          T          G          T          C
+	gi|284800255|ref|NC_013766.1|  156056    valid   T          C          T          G          T          C
+	gi|284800255|ref|NC_013766.1|  163917    valid   T          C          T          G          T          C
+	gi|284800255|ref|NC_013766.1|  177102    valid   A          G          A          T          A          G
+	gi|284800255|ref|NC_013766.1|  197161    valid   G          A          G          C          G          A
+	gi|284800255|ref|NC_013766.1|  198617    valid   T          C          T          G          T          C
+	gi|284800255|ref|NC_013766.1|  222201    valid   A          G          A          T          A          G
+	gi|284800255|ref|NC_013766.1|  253430    valid   G          C          G          C          G          C
+	gi|284800255|ref|NC_013766.1|  289669    valid   G          C          G          C          G          C
 	
 This file contains a list of all variants detected by the pipeline, one per line.  Each variant is given a status, with 'valid' indicating that the variants at that position were used for further analysis.
 
